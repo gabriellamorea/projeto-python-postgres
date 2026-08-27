@@ -73,3 +73,23 @@ def test_excluir_usuario():
     resultado = excluir_usuario(id_usuario)
 
     assert resultado == 1
+
+def test_cadastrar_email_duplicado():
+    email = "teste_duplicado@email.com"
+
+    resultado = cadastrar_usuario("Primeiro Usuário", email)
+
+    assert resultado is True
+
+    resultado = cadastrar_usuario("Segundo Usuário", email)
+
+    assert resultado is False
+
+    usuarios = listar_usuarios()
+
+    usuario = next(
+        usuario for usuario in usuarios
+        if usuario[2] == email
+    )
+
+    excluir_usuario(usuario[0])

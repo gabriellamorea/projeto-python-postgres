@@ -15,6 +15,8 @@ def cadastrar_usuario(nome, email):
                     (nome, email)
                 )
 
+        return True
+
     except errors.UniqueViolation:
         return False
 
@@ -34,19 +36,23 @@ def listar_usuarios():
 
 
 def atualizar_usuario(id_usuario, nome, email):
-    with conectar() as conexao:
-        with conexao.cursor() as cursor:
-            cursor.execute(
-                """
-                UPDATE usuarios
-                SET nome = %s,
-                    email = %s
-                WHERE id = %s
-                """,
-                (nome, email, id_usuario)
-            )
+    try:
+        with conectar() as conexao:
+            with conexao.cursor() as cursor:
+                cursor.execute(
+                    """
+                    UPDATE usuarios
+                    SET nome = %s,
+                        email = %s
+                    WHERE id = %s
+                    """,
+                    (nome, email, id_usuario)
+                )
 
-            return cursor.rowcount
+                return cursor.rowcount
+
+    except errors.UniqueViolation:
+        return -1
 
 
 def excluir_usuario(id_usuario):

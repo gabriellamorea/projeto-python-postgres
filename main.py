@@ -1,3 +1,5 @@
+from conexao import ErroConexao
+
 from usuarios import (
     cadastrar_usuario,
     listar_usuarios,
@@ -84,8 +86,12 @@ def atualizar():
 
     if resultado == 1:
         print("\nUsuário atualizado com sucesso!")
-    else:
+
+    elif resultado == 0:
         print("\nUsuário não encontrado.")
+
+    elif resultado == -1:
+        print("\nErro: esse e-mail já está cadastrado.")
 
 
 def excluir():
@@ -128,4 +134,8 @@ def main():
 
 
 if __name__ == "__main__":
-    main()
+    try:
+        main()
+
+    except ErroConexao as erro:
+        print(f"\n❌ {erro}")
