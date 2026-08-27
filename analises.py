@@ -1,3 +1,5 @@
+import pandas as pd
+
 from conexao import conectar
 
 
@@ -16,6 +18,7 @@ def faturamento_total():
 
             return resultado[0]
 
+
 def faturamento_por_produto():
     with conectar() as conexao:
         with conexao.cursor() as cursor:
@@ -32,6 +35,7 @@ def faturamento_por_produto():
 
             return cursor.fetchall()
 
+
 def faturamento_por_vendedor():
     with conectar() as conexao:
         with conexao.cursor() as cursor:
@@ -47,3 +51,14 @@ def faturamento_por_vendedor():
             )
 
             return cursor.fetchall()
+
+
+def dataframe_faturamento_produto():
+    dados = faturamento_por_produto()
+
+    df = pd.DataFrame(
+        dados,
+        columns=["produto", "faturamento"]
+    )
+
+    return df
